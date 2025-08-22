@@ -187,3 +187,25 @@ console.log(`Math works: ${2 + 3} equals five`)
 console.log(`Comparison too: ${5 > 3}`);
 
 console.log(`Just a regular string...`);
+
+console.log(
+  "String with \n\
+multiple \n\
+lines"
+);
+
+console.log(`String
+multiple
+lines`);
+
+//////
+// Create variables for:
+const myName = "Kyle"; // Your name
+const myAge = 20; // Your age
+const myJob = "BSIT Student"; // Your job/student status
+const currentYear = 2025;
+
+// Use template literals to create:
+// "Hi, I'm [name], a [age] year old [job]!"
+console.log(`Hi, I'm ${myName}, a ${myAge} year old ${myJob}!`);
+// Log it to the console

@@ -1,0 +1,91 @@
+console.log("Part 2 is now working");
+
+//function - Declarations and Expressions
+console.log(' === FUNCTIONS === ');
+
+function logger() {
+    console.log("My name is Kyle");
+}
+
+logger();
+logger();
+logger();
+
+function fruitProcessor(apples, oranges) {
+    console.log(apples, oranges);
+    const juice = `Juice with ${apples} apples and ${oranges} oranges.`;
+    return juice;
+}
+
+console.log(fruitProcessor(3, 4));
+
+// const juice1 = 'Juice with 5 apples and 0 oranges.';
+// const juice1 = 'Juice with 5 apples and 0 oranges.';
+// const juice1 = 'Juice with 5 apples and 0 oranges.';
+
+const juice1 = fruitProcessor(5, 0);
+const juice2 = fruitProcessor(2, 4);
+const juice3 = fruitProcessor(3, 2);
+console.log(juice1);
+
+// Function expressions
+const calcAge = function (birthYear) {
+    return 2025 - birthYear;
+}
+
+console.log(calcAge(2005)); 
+console.log(calcAge(1991));
+
+function introduce(firstName, lastName, age) {
+    const introduction = `Hi, I'm ${firstName} ${lastName}, and I'm ${age} years old.`;
+    return introduction;
+}   
+
+console.log(introduce('Kyle', 'Alonzo', 20));
+
+function yearsUntilRetirement(birthYear, firstName) {
+    const age = calcAge(birthYear);
+    const retirement = 65 - age;
+
+    if (retirement > 0) {
+        return`${firstName} retires in ${retirement} years.`;
+    } else {
+        return`${firstName} has already retired.`;
+    }
+}
+
+console.log(yearsUntilRetirement(2005, "Kyle"));
+
+//global scope
+const globalVar = "I am global";
+
+function testScope() {
+    const localVar = "I am local";
+    console.log(globalVar);
+    console.log(localVar);
+}
+
+////////////////////////////////////
+// Coding Challenge #1
+
+// Function to calculate average of 3 scores
+function calcAverage(score1, score2, score3) {
+  // Your code here
+}
+
+// Function to check winner
+function checkWinner(avgDolphins, avgKoalas) {
+  // Your code here
+  // Remember: team needs DOUBLE the score to win
+  // Use template literals for nice output
+}
+
+// Test Data 1
+let scoreDolphins = calcAverage(44, 23, 71);
+let scoreKoalas = calcAverage(65, 54, 49);
+console.log(checkWinner(scoreDolphins, scoreKoalas));
+
+// Test Data 2
+scoreDolphins = calcAverage(85, 54, 41);
+scoreKoalas = calcAverage(23, 34, 27);
+console.log(checkWinner(scoreDolphins, scoreKoalas)

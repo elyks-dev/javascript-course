@@ -71,6 +71,7 @@ function testScope() {
 // Function to calculate average of 3 scores
 function calcAverage(score1, score2, score3) {
   // Your code here
+  return (score1 + score2 + score3) / 3; 
 }
 
 // Function to check winner
@@ -78,6 +79,13 @@ function checkWinner(avgDolphins, avgKoalas) {
   // Your code here
   // Remember: team needs DOUBLE the score to win
   // Use template literals for nice output
+  if (avgDolphins >= 2 * avgKoalas) {
+    return `Dolphins win (${avgDolphins} vs. ${avgKoalas})`;
+  } else if (avgKoalas >= 2 * avgDolphins) {
+    return `Koalas win (${avgKoalas} vs. ${avgDolphins})`;
+  } else {
+    return 'No team wins! Koalas: ' + avgKoalas + ', Dolphins: ' + avgDolphins;
+  }
 }
 
 // Test Data 1
@@ -88,4 +96,5 @@ console.log(checkWinner(scoreDolphins, scoreKoalas));
 // Test Data 2
 scoreDolphins = calcAverage(85, 54, 41);
 scoreKoalas = calcAverage(23, 34, 27);
-console.log(checkWinner(scoreDolphins, scoreKoalas)
+console.log(checkWinner(scoreDolphins, scoreKoalas));
+

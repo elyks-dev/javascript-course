@@ -271,3 +271,273 @@
 // console.log(`Highest: ${highest}`);
 // console.log(`Lowest: ${lowest}`);
 // console.log(`Passing students: ${passing} out of ${grades.length}`);
+
+// ////////////////////////////////////
+// // JavaScript Fundamentals Part 2 - Hour 3
+
+// // Problems with Arrays
+// const kyleArray = [
+//     "Kyle",
+//     "Alonzo",
+//     2025 - 2005,
+//     "Student",
+//     ["Jang", "Jason", "Gab"],
+// ];
+
+// console.log(kyleArray[0]);
+// console.log(kyleArray[1]);
+
+// const kyleObject = {
+//     firstName: 'Kyle',
+//     lastName: 'Alonzo',
+//     age: 2025 - 2005,
+//     job: 'Student',
+//     friends: ['Jang', 'Jason', 'Gab'],
+// };
+// console.log(kyleObject);
+
+// // Property access methods
+// // Dot notation
+// console.log(kyleObject.firstName);
+// console.log(kyleObject.lastName);
+// console.log(kyleObject.age);
+
+// // bracket notation
+// console.log(kyleObject['firstName']);
+// console.log(kyleObject['lastName']);
+// console.log(kyleObject['age']);
+
+// const nameKey = 'Name';
+// console.log(kyleObject['first' + nameKey]);
+
+
+// // Modifying existing properties
+// kyleObject.job = "Programmer";
+// kyleObject["age"] = 21;
+// console.log(kyleObject);
+
+// // Add new properties
+// kyleObject.location = "philippines";
+// kyleObject["twitter"] = "kyleprogrammer";
+// kyleObject.hasDriverLicense = true;
+// console.log(kyleObject);
+
+// // Exercise 1
+// // 1. Create a 'book' object with title, author, pages, and isRead properties
+// const book = {
+//   title: "Supernatural",
+//   author: "Eric Kripke",
+//   pages: 900,
+//   isRead: true
+// };
+
+// // 2. Create a 'playlist' object with name, creator, songs array, and genre
+// const playlist = {
+//   name: "Chill Vibes",
+//   creator: "Kyle",
+//   songs: ["Sunflower", "888", "Electric Love"],
+//   genre: "Indie/Pop"
+// };
+
+// // 3. Access and log different properties using both dot and bracket notation
+// console.log(book.title);
+// console.log(book["author"]);
+// console.log(playlist.name);
+// console.log(playlist["creator"]);
+
+// // 4. Add a new property to each object
+// book.yearPublished = 1988;
+// playlist.totalSongs = 3;
+
+// // 5. Modify an existing property in each object
+// book.isRead = false;
+// playlist.genre = "Lo-fi / Chill";
+
+// // Final check
+// console.log(book);
+// console.log(playlist);
+
+// // Objects vs Arrays Decision Making
+
+// // Arrays
+// const listOfYears = [1991, 1984, 2005, 2020];
+// const shoppingList = ["apples", "bananas", "milk", "bread"];
+// const testScores = [80, 93, 87, 89];
+
+// // Objects
+// const person = {
+//     name: "Kyle",
+//     age: 20,
+//     occupation: "student",
+// };
+// const car = {
+//     brand: "Toyota",
+//     model: "Camry",
+//     year: 2020,
+//     color: "white",
+// };
+
+// // objects can contain arrays, arrays can contain objects
+// const student = {
+//     name: "Sarah",
+//     grades: [90, 87, 99],
+//     address: {
+//         street: "288 Cross St",
+//         city: "New York",
+//     },
+// };
+
+// console.log(student.grades[0]);
+// console.log(student.address.city);
+
+// // Object Methods
+
+// const john = {
+//     firstName: "John",
+//     lastName: "Winchester",
+//     birthYear: 1954,
+//     job: "Hunter",
+//     friends: ["Bobby", "Daniel", "Caleb"],
+//     hasDriversLicense: true,
+
+//     calcAge: function(birthYear) {
+//         return 2025 - birthYear;
+//     },
+// };
+
+// console.log(john.calcAge(2000));
+
+// //'this' keyword
+// const johnImproved = {
+//     firstName: "John",
+//     lastName: "Winchester",
+//     birthYear: 1954,
+//     job: "Hunter",
+//     friends: ["Bobby", "Daniel", "Caleb"],
+//     hasDriversLicense: true,
+
+//     calcAge: function() {
+//         this.age = 2025 - this.birthYear;
+//         return this.age;
+//     },
+
+//     getSummary: function() {
+//         return `${this.firstName} is a ${this.calcAge()}-year old ${this.job}, and he has ${this.hasDriversLicense ? 'a' : 'no'} drivers license`;
+//     },
+// };
+
+// console.log(johnImproved.calcAge());
+// console.log(johnImproved.age);
+// console.log(johnImproved.getSummary());
+
+// // Create a 'calculator' object:
+// // 1. Properties: num1, num2, operator
+// // 2. Methods: add(), subtract(), multiply(), divide()
+// // 3. Method: calculate() that uses the operator to perform the right operation
+// // 4. Method: getResult() that returns a formatted string
+// // 5. Use 'this' to access the object's own properties
+
+// const calculator = {
+//   num1: 10,
+//   num2: 5,
+//   operator: "+",
+
+//   add: function () {
+//     return this.num1 + this.num2;
+//   },
+
+//   subtract: function () {
+//     return this.num1 - this.num2;
+//   },
+
+//   multiply: function () {
+//     return this.num1 * this.num2;
+//   },
+
+//   divide: function () {
+//     return this.num1 / this.num2;
+//   },
+
+//   calculate: function () {
+//     if (this.operator === "+") {
+//       return this.add();
+//     } else if (this.operator === "-") {
+//       return this.subtract();
+//     } else if (this.operator === "*") {
+//       return this.multiply();
+//     } else if (this.operator === "/") {
+//       return this.divide();
+//     } else {
+//       return "Invalid operator";
+//     }
+//   },
+
+//   getResult: function () {
+//     return `${this.num1} ${this.operator} ${this.num2} = ${this.calculate()}`;
+//   },
+// };
+
+// // Test your calculator
+// console.log(calculator.calculate());
+// console.log(calculator.getResult());
+
+// ////////////////////////////////////
+// // Coding Challenge #3 - User Profile System
+
+// const user = {
+//   firstName: "Sarah",
+//   lastName: "Johnson",
+//   birthYear: 1995,
+//   location: "New York",
+//   interests: ["photography", "travel", "coding"],
+//   friends: [
+//     { name: "Michael", status: "active" },
+//     { name: "Emma", status: "inactive" },
+//     { name: "David", status: "active" },
+//   ],
+//   isActive: true,
+
+//   // Calculate age method
+//   calcAge: function () {
+//     this.age = new Date().getFullYear() - this.birthYear;
+//     return this.age;
+//   },
+
+//   // Add friend method
+//   addFriend: function (name, status = "active") {
+//     this.friends.push({ name: name, status: status });
+//     return this.friends.length;
+//   },
+
+//   // Get active friends count
+//   getActiveFriends: function () {
+//     const activeFriends = this.friends.filter(friend => friend.status === "active");
+//     return activeFriends.length;
+//   },
+
+//   // Toggle active status
+//   toggleStatus: function () {
+//     this.isActive = !this.isActive;
+//     return this.isActive;
+//   },
+
+//   // Generate profile summary
+//   getSummary: function () {
+//     const age = this.calcAge();
+//     const activeFriends = this.getActiveFriends();
+//     const status = this.isActive ? "Active" : "Inactive";
+
+//     return `${this.firstName} ${this.lastName} (${age}) from ${this.location}
+// Currently: ${status}
+// ${activeFriends} active friends out of ${this.friends.length} total
+// Interests: ${this.interests.join(", ")}
+// Connected and sharing life's adventures`;
+//   },
+// };
+
+// // Test your user profile system
+// console.log(user.getSummary());
+// user.addFriend("Alex", "active");
+// user.toggleStatus();
+// console.log("\nAfter updates:");
+// console.log(user.getSummary());

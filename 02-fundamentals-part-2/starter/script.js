@@ -541,3 +541,101 @@
 // user.toggleStatus();
 // console.log("\nAfter updates:");
 // console.log(user.getSummary());
+
+// ////////////////////////////////////
+// // JavaScript Fundamentals Part 2 - Hour 4
+
+// // Select DOM Elements
+
+// // 1st Method
+// // querySelector - uses css selectors
+
+// const message = document.querySelector(".message");
+// // gets us the entire element object with all its properties
+// console.log(message);
+
+// const button = document.querySelector('#btn');
+// console.log(button);
+
+// const heading = document.querySelector("h1");
+// console.log(heading);
+// // query selector returns the first matching element
+
+// console.log(message.textContent);
+// console.log(button.id);
+// console.log(heading.tagName);
+// console.log(heading.textContent);
+
+// // getElementByID
+// const buttonByID = document.getElementById("btn");
+// console.log(buttonByID);
+// console.log(buttonByID === button);
+
+// // querySelectorAll - Multiple elements
+// const allParagraphs = document.querySelectorAll("p");
+// console.log(allParagraphs);
+// console.log(allParagraphs[0]);
+
+// // Modifying element content
+
+// const message = document.querySelector(".message");
+
+// console.log(message.textContent);
+// message.textContent = "Hello From JavaScript";
+// console.log(message.textContent);
+
+// // innerHTML
+// message.innerHTML = "<strong>Bold text from JS!</strong>";
+
+// // innerText
+// console.log(message.innerText);
+
+
+// // Input Element Values
+// const input = document.querySelector(".guess");
+
+// console.log(input.value);
+// input.value = "Default text";
+
+// const heading = document.querySelector("h1");
+// heading.style.color = "red";
+// heading.style.backgroundColor = "yellow";
+// heading.style.fontSize = "3rem";
+
+// const button = document.querySelector("#btn");
+// button.style.padding = "20px";
+// button.style.borderRadius = "10px";
+
+
+// // Event Listeners - user interactions
+
+// button.addEventListener('click', function() {
+//     console.log('Button was clicked!');
+//     message.textContent = "You Clicked the button";
+//     message.style.color = "green";
+// });
+
+// let clickCount = 0;
+// button.addEventListener("click", function () {
+//     clickCount++;
+//     button.textContent = `Clicked ${clickCount} times`;
+//     button.style.backgroundColor = `hsl(${clickCount * 30}), 70%, 50%)`; 
+// });
+
+
+// const display = document.querySelector(".message");
+// input.addEventListener('input', function() {
+//     const userText = input.value;
+//     display.textContent = `You typed ${userText}`;
+//     display.style.fontSize = `${userText.length + 10}px`;
+// });
+
+// // keyboard events - respond to specific key
+// input.addEventListener("keydown", function (event) {
+//     console.log(`Key pressed ${event.key}`);
+
+//     if (event.key === 'Enter') {
+//         display.textContent = `You pressed Enter! Text was ${input.value}`;
+//         input.value = ""; //clear input
+//     }
+// })

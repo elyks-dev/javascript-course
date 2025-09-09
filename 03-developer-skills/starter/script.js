@@ -582,3 +582,161 @@
 // console.log(
 //   "All bugs identified, isolated, investigated, fixed, and prevented"
 // );
+
+// //////
+// // Hour 4: Apply everything to real challenges
+// "use strict";
+
+// console.log("=== HOUR 4: ADVANCED PROBLEM-SOLVING MASTERY ===");
+
+// console.log("Ready to tackle complex problems using systematic approaches");
+// console.log("Challenge: Build solutions that work under pressure");
+
+// // Section 1: Weather Forecast Challenge
+// const data1 = [17, 21, 23];
+// const data2 = [12, 5, -5, 0, 4];
+
+// function printForecast(arr) {
+//   if (!Array.isArray(arr) || arr.length === 0) {
+//     console.error("printForecast: expected a non-empty array");
+//     return;
+//   }
+//   let result = "...";
+//   for (let i = 0; i < arr.length; i++) {
+//     result += `${arr[i]}°C in ${i + 1} days...`;
+//   }
+//   console.log(result);
+// }
+
+// // Map approach (functional)
+// function printForecastMap(arr) {
+//   if (!Array.isArray(arr) || arr.length === 0) {
+//     console.error("printForecastMap: expected a non-empty array");
+//     return;
+//   }
+//   const formatted = arr.map((temp, index) => `${temp}°C in ${index + 1} days`);
+//   console.log("..." + formatted.join("...") + "...");
+// }
+
+// // Reduce approach (concise)
+// function printForecastReduce(arr) {
+//   if (!Array.isArray(arr) || arr.length === 0) {
+//     console.error("printForecastReduce: expected a non-empty array");
+//     return;
+//   }
+//   const result = arr.reduce(
+//     (acc, temp, index) => acc + `${temp}°C in ${index + 1} days...`,
+//     "..."
+//   );
+//   console.log(result);
+// }
+
+// // Tests for weather formatter
+// printForecast(data1);
+// printForecast(data2);
+// printForecastMap(data1);
+// printForecastReduce(data1);
+
+// console.log("Weather forecast formatter working correctly!");
+
+// // Section 2: Time-Pressured Challenge
+// function analyzeWorkWeek(dailyHours) {
+//   if (!Array.isArray(dailyHours) || dailyHours.length !== 7) {
+//     console.error("analyzeWorkWeek: expected an array of 7 numbers");
+//     return null;
+//   }
+
+//   const totalHours = dailyHours.reduce((sum, h) => sum + h, 0);
+//   const averageHours = Math.round((totalHours / dailyHours.length) * 10) / 10;
+//   const maxHours = Math.max(...dailyHours);
+//   const maxDayIndex = dailyHours.indexOf(maxHours);
+//   const dayNames = [
+//     "Monday",
+//     "Tuesday",
+//     "Wednesday",
+//     "Thursday",
+//     "Friday",
+//     "Saturday",
+//     "Sunday",
+//   ];
+//   const maxDay = dayNames[maxDayIndex] || null;
+//   const daysWorked = dailyHours.filter((h) => h > 0).length;
+//   const isFullTime = totalHours >= 35;
+
+//   return {
+//     totalHours,
+//     averageHours,
+//     maxDay,
+//     daysWorked,
+//     isFullTime,
+//   };
+// }
+
+// const weeklyHours = [7.5, 8, 6.5, 0, 8.5, 4, 0];
+// console.log("Work week analysis:", analyzeWorkWeek(weeklyHours));
+
+// // Optimized version
+// function analyzeWorkWeekOptimized(dailyHours) {
+//   if (!Array.isArray(dailyHours) || dailyHours.length !== 7) {
+//     console.error("analyzeWorkWeekOptimized: expected an array of 7 numbers");
+//     return null;
+//   }
+
+//   const totalHours = dailyHours.reduce((s, h) => s + h, 0);
+//   const averageHours = Math.round((totalHours / 7) * 10) / 10;
+//   const maxHours = Math.max(...dailyHours);
+//   const maxIndex = dailyHours.indexOf(maxHours);
+//   const dayNames = [
+//     "Monday",
+//     "Tuesday",
+//     "Wednesday",
+//     "Thursday",
+//     "Friday",
+//     "Saturday",
+//     "Sunday",
+//   ];
+//   const workingDays = dailyHours
+//     .map((h, i) => (h > 0 ? dayNames[i] : null))
+//     .filter(Boolean);
+
+//   return {
+//     totalHours,
+//     averageHours,
+//     maxDay: dayNames[maxIndex] || null,
+//     daysWorked: workingDays.length,
+//     isFullTime: totalHours >= 35,
+//     workingDays,
+//   };
+// }
+
+// console.log("Optimized analysis:", analyzeWorkWeekOptimized(weeklyHours));
+
+// Section 3: Debug Legacy Code - Fixed and Enhanced
+// function enhancedForecastFunction(temperatures, options = {}) {
+//   if (!Array.isArray(temperatures) || temperatures.length === 0) {
+//     console.error(
+//       "enhancedForecastFunction: temperatures must be a non-empty array"
+//     );
+//     return "";
+//   }
+
+//   const { unit = "°C", separator = "...", includeIndex = true } = options;
+//   const pieces = [];
+
+//   for (let i = 0; i < temperatures.length; i++) {
+//     const dayNumber = includeIndex ? i + 1 : i;
+//     pieces.push(`${temperatures[i]}${unit} in ${dayNumber} days`);
+//   }
+
+//   return separator + pieces.join(separator) + separator;
+// }
+
+// const testData = [15, 18, 22, 19];
+// console.log("Enhanced function (default):", enhancedForecastFunction(testData));
+// console.log(
+//   "Enhanced function (custom):",
+//   enhancedForecastFunction(testData, { unit: "°F", separator: " | ", includeIndex: true })
+// );
+
+// console.log("Complete developer skills successfully applied!");
+// console.log("Legacy code debugged, fixed, and enhanced systematically");

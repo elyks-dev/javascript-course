@@ -39,19 +39,19 @@ Games should feel responsive. Visual feedback (colors, styles) helps players imm
 // WIN: set background to green
 if (guess === secretNumber) {
   // ... your existing win logic ...
-  document.body.style.backgroundColor = 'green';
+  document.body.style.backgroundColor = "green";
 }
 
 // LOSE: set background to red (place inside your lose condition)
 if (score < 1) {
   // ... your existing lose logic ...
-  document.body.style.backgroundColor = 'red';
+  document.body.style.backgroundColor = "red";
 }
 
 // RESTART: clear inline background so CSS default applies (inside the Again! handler)
-document.querySelector('.again').addEventListener('click', function () {
+document.querySelector(".again").addEventListener("click", function () {
   // ... your existing restart logic ...
-  document.body.style.backgroundColor = '';
+  document.body.style.backgroundColor = "";
 });
 ```
 
@@ -78,19 +78,19 @@ Players make mistakes. Your game should prevent invalid input and explain what w
 ////////////////////////////////////
 // Input validation - check for valid input
 
-document.querySelector('.check').addEventListener('click', function () {
-  const guess = Number(document.querySelector('.guess').value);
+document.querySelector(".check").addEventListener("click", function () {
+  const guess = Number(document.querySelector(".guess").value);
 
   // 1) Missing input
   if (!guess) {
-    document.querySelector('.message').textContent = 'No number!';
+    document.querySelector(".message").textContent = "No number!";
     return; // stop here
   }
 
   // 2) Out of range
   if (guess < 1 || guess > 20) {
-    document.querySelector('.message').textContent =
-      'Number must be between 1 and 20!';
+    document.querySelector(".message").textContent =
+      "Number must be between 1 and 20!";
     return; // stop here
   }
 
@@ -123,15 +123,15 @@ Finishing touches make your project feel professional and complete.
 // In WIN block
 if (guess === secretNumber) {
   // ... existing win logic ...
-  document.querySelector('.message').textContent = '🎉 Game Over!';
-  document.querySelector('.guess').value = '';
+  document.querySelector(".message").textContent = "🎉 Game Over!";
+  document.querySelector(".guess").value = "";
 }
 
 // In LOSE block
 if (score < 1) {
   // ... existing lose logic ...
-  document.querySelector('.message').textContent = '💀 Game Over!';
-  document.querySelector('.guess').value = '';
+  document.querySelector(".message").textContent = "💀 Game Over!";
+  document.querySelector(".guess").value = "";
 }
 
 // In RESTART handler
@@ -181,7 +181,8 @@ git commit
 
 Copy this commit message:
 
-```feat: add visual feedback, validation, and final polish
+```
+feat: add visual feedback, validation, and final polish
 
 - Implement win/lose visual feedback via background color changes
 - Add input validation with helpful error messages and early returns

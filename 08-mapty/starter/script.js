@@ -8,11 +8,15 @@ class Workout {
   clicks = 0;
 
   constructor(coords, distance, duration) {
+    // stores the coordinates as an array of lat and long
     this.coords = coords;
+    // stores distance in kilometers
     this.distance = distance;
+    // stores duration in minutes
     this.duration = duration;
   }
 
+  // generate workout description
   _setDescription() {
     const months = [
       'January',
@@ -29,6 +33,7 @@ class Workout {
       'December',
     ];
 
+    // generate description
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
@@ -40,7 +45,8 @@ class Workout {
 }
 
 const testWorkout = new Workout([40.7128, -74.006], 5.2, 24);
-console.log('Test workout:', testWorkout);
+console.log(testWorkout);
+
 class Running extends Workout {
   type = 'running';
 
@@ -73,6 +79,8 @@ class Cycling extends Workout {
   }
 }
 
+//===== TESTING THE CLASS HIERARCHY =====
+
 const run1 = new Running([39.7392, -104.9903], 5.2, 24, 178);
 console.log('=== RUNNING WORKOUT ===');
 console.log('Distance:', run1.distance, 'km');
@@ -98,57 +106,23 @@ console.log(
   cycling1 instanceof Workout
 );
 
-// DOM ELEMENTS
-// main form element
-const form = document.querySelector('.form');
-// container workouts list
-const containerWorkouts = document.querySelector('.workouts');
-// input type
-const inputType = document.querySelector('.form__input--type');
-// input distance
-const inputDistance = document.querySelector('.form__input--distance');
-// input duration
-const inputDuration = document.querySelector('.form__input--duration');
-// input cadence
-const inputCadence = document.querySelector('.form__input--cadence');
-// input elevation
-const inputElevation = document.querySelector('.form__input--elevation');
-
-// Add this after your existing Workout classes from Hour 1
-
 console.log('=== TESTING GEOLOCATION API ===');
 
-function loadMap(position) {
-  const { latitude, longitude } = position.coords;
-  console.log(`Loading map at coordinates: ${latitude}, ${longitude}`);
-
-  const coords = [latitude, longitude];
-
-  const map = L.map('map').setView(coords, 13);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-
-  L.marker(coords).addTo(map).bindPopup('You are here!').openPopup();
-
-  map.on('click', function (mapEvent) {
-    const { lat, lng } = mapEvent.latlng;
-    console.log(`Map clicked at: ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
-
-    L.marker([lat, lng])
-      .addTo(map)
-      .bindPopup(
-        `Workout location<br>lat: ${lat.toFixed(4)}, lng: ${lng.toFixed(4)}`
-      )
-      .openPopup();
-  });
-
-  console.log('Map loaded successfully at user location!');
-}
-
-// App class - the main application controller
+//DOM elements
+//main formelement
+const form = document.querySelector('.form');
+//container workout list
+const containerWorkouts = document.querySelector('.workouts');
+//input type
+const inputType = document.querySelector('.form__input--type');
+//input distance
+const inputDistance = document.querySelector('.form__input--distance');
+//input duration
+const inputDuration = document.querySelector('.form__input--duration');
+//input cadence
+const inputCadence = document.querySelector('.form__input--cadence');
+//input elevation
+const inputElevation = document.querySelector('.form__input--elevation');
 class App {
   #map;
   #mapZoomLevel = 13;
@@ -156,18 +130,47 @@ class App {
   #workouts = [];
 
   constructor() {
-    console.log('🚀 App starting...');
+    console.log('App is starting');
+    this._getLocalStorage();
     this._getPosition();
 
-    // attach event handler for form submission
     form.addEventListener('submit', this._newWorkout.bind(this));
-    // attach event handler for workout type change
+    // Attach event handler for workout type change
     inputType.addEventListener('change', this._toggleElevationField);
+
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+
+    document.addEventListener('keydown', this._handleKeydown.bind(this));
+  }
+
+  _handleKeydown(e) {
+    if (e.key === 'Escape' && !form.classList.contains('hidden')) {
+      this._hideForm();
+      console.log('Form hidden via Escape key');
+    }
+  }
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
+    );
+
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+    console.log(`navigated to ${workout.type} workout at`, workout.coords);
   }
 
   _getPosition() {
-    console.log('🔍 Requesting user location...');
     if (navigator.geolocation) {
+      console.log('🔍 Requesting user location...');
       navigator.geolocation.getCurrentPosition(
         this._loadMap.bind(this),
         this._handleLocationError.bind(this),
@@ -194,14 +197,13 @@ class App {
           'Location access was denied. Please enable location services and refresh the page.';
         break;
       case error.POSITION_UNAVAILABLE:
-        message +=
-          'Location information is unavailable. Using default location.';
+        message += 'Location information is unavailable.';
         break;
       case error.TIMEOUT:
-        message += 'Location request timed out. Using default location.';
+        message += 'Location request timed out.';
         break;
       default:
-        message += 'An unknown error occurred. Using default location.';
+        message += 'An unknown error occurred.';
         break;
     }
 
@@ -209,36 +211,62 @@ class App {
     this._loadDefaultMap();
   }
 
+  _loadMap(position) {
+    const { latitude, longitude } = position.coords;
+    console.log(`Loading map at coordinates: ${latitude}, ${longitude}`);
+
+    // create coords array
+    // VERYY IMPORTANT!!
+    const coords = [latitude, longitude];
+
+    // initialize the map and and center at user's location
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
+
+    // add the tile layer to the map (the actual map image)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.#map);
+
+    //add a marker to the map at user's location
+    L.marker(coords).addTo(this.#map).bindPopup('Your Location').openPopup();
+
+    //DIto
+    this.#map.on('click', this._showForm.bind(this));
+
+    this._renderStoredWorkouts();
+
+    console.log('Map loaded successfully at user location');
+  }
+
   _loadDefaultMap() {
-    console.log('📍 Loading default map location (London)');
-    const defaultCoords = [51.5074, -0.1278];
+    console.log('Loading default map location around Manila');
+
+    const defaultCoords = [14.604, 120.994];
 
     this.#map = L.map('map').setView(defaultCoords, this.#mapZoomLevel);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
 
     this.#map.on('click', this._showForm.bind(this));
-    console.log('🗺️ Default map loaded successfully');
+
+    this._renderStoredWorkouts();
+
+    console.log('Default map loaded successfully');
   }
 
-  _loadMap(position) {
-    const { latitude, longitude } = position.coords;
-    console.log(`📍 User location: ${latitude}, ${longitude}`);
+  _renderStoredWorkouts() {
+    this.#workouts.forEach(workout => {
+      this._renderWorkoutMarker(workout);
+      this._renderWorkout(workout);
+    });
 
-    const coords = [latitude, longitude];
-    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.#map);
-
-    L.marker(coords).addTo(this.#map).bindPopup('You are here!').openPopup();
-    this.#map.on('click', this._showForm.bind(this));
-    console.log('Map loaded successfully!');
+    if (this.#workouts.length > 0) {
+      console.log(`Rendered ${this.#workouts.length} stored workouts`);
+    }
   }
 
   _showForm(mapE) {
@@ -248,69 +276,73 @@ class App {
   }
 
   _toggleElevationField() {
-    // turn on or display the elevation
+    //turn on or display the elevation
     inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-    // turns off or hide the input cadence
+    //turns off ot hide the cadence
     inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
   }
 
   _hideForm() {
+    //empty the input fields
     inputDistance.value =
       inputDuration.value =
       inputCadence.value =
       inputElevation.value =
         '';
 
-    // add hiding animation
+    //add hiding animation
     form.style.display = 'none';
     form.classList.add('hidden');
     setTimeout(() => (form.style.display = 'grid'), 1000);
   }
 
   _newWorkout(e) {
-    // helper function
-    // validate input that they are actual numbers that make sense
+    //helper function
+    //validate input that they are actual numbers that make sense
     const validInputs = (...inputs) =>
       inputs.every(inp => Number.isFinite(inp));
-    // validate numbers are positive
     const allPositive = (...inputs) => inputs.every(inp => inp > 0);
 
-    // prevent the default form submission behaviour
+    //prevent the default form from submitting
     e.preventDefault();
 
+    //store data or extract data
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
     const { lat, lng } = this.#mapEvent.latlng;
     let workout;
 
-    console.log(`Creating ${type} workout:`, { distance, duration, lat, lng });
+    console.log(`creating a new ${type} workout: `, {
+      distance,
+      duration,
+      lat,
+      lng,
+    });
 
+    //handle runnninng working
     if (type === 'running') {
       const cadence = +inputCadence.value;
-      // check if data is valid
+      //validate all input elements are finite, postive, working
       if (
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
       )
         return alert('Inputs have to be positive numbers!');
 
-      // create the running object with map coordinates and form data
       workout = new Running([lat, lng], distance, duration, cadence);
     }
 
-    // cycling workout creation
-
+    //cycling workout creation
     if (type === 'cycling') {
       const elevation = +inputElevation.value;
-      // check if data is valid
+      //validate all input elements are finite, postive, working
       if (
         !validInputs(distance, duration, elevation) ||
         !allPositive(distance, duration)
       )
         return alert('Inputs have to be positive numbers!');
 
-      // create the running object with map coordinates and form data
       workout = new Cycling([lat, lng], distance, duration, elevation);
     }
 
@@ -322,17 +354,19 @@ class App {
 
     this._renderWorkout(workout);
 
+    this._setLocalStorage();
+
     this._hideForm();
 
-    console.log('Workout creation complete!');
+    console.log('Workout creation complete!!');
   }
 
   _renderWorkout(workout) {
-    // create the base html
+    //create the base html
     let html = `
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
       <h2 class="workout__title">${workout.description}</h2>
-        <div class="workout__details">
+      <div class="workout__details">
         <span class="workout__icon">${
           workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'
         }</span>
@@ -387,17 +421,59 @@ class App {
           maxWidth: 250,
           minWidth: 100,
           autoClose: false,
-          classOnClick: false,
+          closeOnClick: false,
           className: `${workout.type}-popup`,
         })
       )
-      // set popup content with emoji and workout description
       .setPopupContent(
         `${workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'} ${workout.description}`
       )
       .openPopup();
   }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    console.log('Workouts saved to local storage');
+  }
+
+  _getLocalStorage() {
+    const data = localStorage.getItem('workouts');
+
+    if (!data) return;
+
+    const storedWorkouts = JSON.parse(data);
+    console.log('Retrieved workouts from local storage:', storedWorkouts);
+
+    this.#workouts = storedWorkouts.map(workoutData => {
+      let workout;
+      if (workoutData.type === 'running') {
+        workout = new Running(
+          workoutData.coords,
+          workoutData.distance,
+          workoutData.duration,
+          workoutData.cadence
+        );
+      }
+
+      if (workoutData.type === 'cycling') {
+        workout = new Cycling(
+          workoutData.coords,
+          workoutData.distance,
+          workoutData.duration,
+          workoutData.elevationGain
+        );
+      }
+
+      //restore original date and ID to maintain data consistency
+      workout.date = new Date(workoutData.date);
+      workout.id = workoutData.id;
+      workout.clicks = workoutData.click;
+
+      return workout;
+    });
+
+    console.log('Workouts restored as proper objects', this.#workouts);
+  }
 }
 
 const app = new App();
-console.log('Hour 2 complete!');
